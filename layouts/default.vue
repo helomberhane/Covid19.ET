@@ -138,6 +138,7 @@
 import Util from "@/util/util";
 import AddNewCases from "@/components/AddNewCases";
 import { mapActions, mapMutations } from "vuex";
+import { Auth } from 'aws-amplify';
 
 export default {
   components: { AddNewCases },
@@ -211,6 +212,15 @@ export default {
       title: "COVID19.ET"
     };
   },
+  created() {
+    console.log("default")
+    console.log(this.$store.state)
+    console.log(this.$store.state.user)
+    console.log(this.$store.state.auth)
+    console.log(this.$store.state.auth.user)
+
+    this.isSignedIn()
+  },
   methods: {
     ...mapActions("auth", ["logout"]),
     async signout() {
@@ -239,6 +249,22 @@ export default {
         var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
       }
+    },
+    isSignedIn() {
+      // console.log(this.$store.state.auth.isAuthenticated)
+
+      // console.log("is signed in default.vue")
+      // Auth.currentAuthenticatedUser({
+      //     bypassCache: true
+      // }).then((user) => {
+      //   console.log(user)
+      //   debugger
+      // })
+      // .catch((err) => {
+      //   console.log(err)
+      //   debugger
+      //   this.$router.push("/login");
+      // });
     }
   },
   computed: {

@@ -85,6 +85,10 @@ export default {
       Auth.signIn(this.username, this.password)
         .then((user) => {
           console.log(user)
+
+          this.$store.commit('setUser', user)
+          // this.$store.state.auth.dispatch('setUser', user)
+          // EventBus.$emit("number-added", Number(this.number));
           this.loading = false
           this.$router.push("/")
         })

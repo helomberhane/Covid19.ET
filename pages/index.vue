@@ -79,6 +79,8 @@ import TotalRadar from "~/components/TotalSummaryRadarChart";
 import LineChart from "~/components/LineChart.vue";
 import TotalBarChart from "~/components/TotalBarChart.vue";
 import Map from "@/components/Map";
+import { Auth, Amplify, Cache } from 'aws-amplify'
+
 
 export default {
   components: {
@@ -338,15 +340,52 @@ export default {
 
   methods: {
     ...mapActions("stats", { findStats: "find" }),
-    async getStats() {
+    getStats() {
       this.loading = true;
-      await this.findStats({ query: {} })
-        .then(r => {
-          this.loading = false;
-        })
-        .catch(err => {
-          this.loading = false;
-        });
+      // await this.findStats({ query: {} })
+      //   .then(r => {
+      //     this.loading = false;
+      //   })
+      //   .catch(err => {
+      //     this.loading = false;
+      //   });
+      // API Gateway test
+      // let apiName = 'dev-covid19-et';
+      // let path = '/oauth2/token'
+      // let myInit = { 
+      //     headers: { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+      // }
+      // return await API.post(apiName, path, myInit);
+
+      console.log("getStats called")
+      console.log("user")
+      console.log(this.$store.state.user)
+      
+      Auth.currentCredentials().then(creds => console.log(creds));
+      
+      Auth.currentSession()
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+      console.log("creds")
+      
+
+      Auth.currentAuthenticatedUser({
+          bypassCache: false
+      }).then((user) => {
+        console.log(user)
+        // debugger
+      })
+      .catch((err) => {
+        console.log(err)
+        // debugger
+        // this.$router.push("/login");
+      });
+      console.log("token")
+      // console.log(token)
+      // var cognitoUser = getUserPool().getCurrentUser();
+
+      // console.log(cognitoUser)
+      // console.log(cognitoUser.getSignInUserSession().getAccessToken().getJwtToken())
     },
     getCat: function(index) {
       return this.labels[index];
@@ -363,7 +402,8 @@ export default {
     }
   },
   created() {
-    this.getStats();
+    // this.getStats();
+    // console.log
   }
 };
 </script>

@@ -42,6 +42,7 @@ export default {
     { src: "~/plugins/apex.chart.js" },
     { src: "~/plugins/feathers-vuex.js" },
     { src: "~/plugins/feathers-client.js" },
+    { src: "~/plugins/auth.js" },
     { src: "~/plugins/authInit.js", ssr: false }
   ],
 
